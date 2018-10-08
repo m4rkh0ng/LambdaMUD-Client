@@ -43,12 +43,14 @@ class NavBar extends React.Component {
     this.props.history.push('/login');
   }
 
-  return (
-    <Nav>
-      Welcome, username
-      <Button onClick={this.handleLogout}>Logout</Button>
-    </Nav>
-  );
+  render() {
+    return (
+      <Nav>
+        Welcome, username
+        <Button onClick={this.handleLogout}>Logout</Button>
+      </Nav>
+    );
+  }
 }
 
 export default withRouter(NavBar);

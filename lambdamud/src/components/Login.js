@@ -3,11 +3,10 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { injectGlobal } from 'styled-components';
 import axios from 'axios';
-import background from '../background/background.jpg';
 
 injectGlobal`
     body {
-        background-image: url(${background});
+        background-image: url("https://images-na.ssl-images-amazon.com/images/I/81qphyJr6SL._SL1500_.jpg");
         background-size: cover;
     }
 `
