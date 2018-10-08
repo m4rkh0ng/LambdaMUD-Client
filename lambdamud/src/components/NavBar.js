@@ -46,7 +46,7 @@ class NavBar extends React.Component {
   render() {
     return (
       <Nav>
-        Welcome, username
+        Welcome, {this.props.username}
         <Button onClick={this.handleLogout}>Logout</Button>
       </Nav>
     );

@@ -28,7 +28,15 @@ const Image = styled.img`
 class Home extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {  }
+    this.state = {  
+      user: {
+        username: ''
+      },
+      room: {
+        title: '',
+        players: []
+      }
+    }
   }
 
   componentDidMount() {
@@ -36,21 +44,32 @@ class Home extends React.Component {
     if (!token) {
       this.props.history.replace('/login')
     }
-    console.log(token);
-    this.initializePlayer(token);
+    this.gameInit(token);
   }
 
-  initializePlayer = async (token) => {
+  gameInit = async (token) => {
     try {
       const response = await axios({
         url: 'https://m4rkh0ng-mud.herokuapp.com/api/adv/init',
         method: 'get',
-        headers:{
+        headers: {
           'Authorization': `Token ${token}`
         }
       })
 
-      console.log(response.data);
+      const user = {
+        username: response.data.name
+      }
+
+      const room = {
+        title: response.data.title,
+        players: response.data.players
+      }
+
+      this.setState({
+        user,
+        room
+      });
     } catch (err) {
         console.log(err.response);
     }
@@ -60,10 +79,10 @@ class Home extends React.Component {
     return (
       <Div>
         <div className="header">
-          <NavBar />
+          <NavBar username={this.state.user.username}/>
         </div>
         <div className="content">
-          <Container />
+          <Container user={this.state.user} room={this.state.room}/>
         </div>
       </Div>
     )

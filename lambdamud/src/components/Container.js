@@ -74,8 +74,8 @@ class Container extends React.Component {
                   <InputCommand/>
                 </GameControl>
                 <GameInfomation className="game-information">
-                  <CharacterInfo/>
-                  <RoomDescription/>
+                  <CharacterInfo user={this.props.user}/>
+                  <RoomDescription room={this.props.room}/>
                 </GameInfomation>
             </Content>
          );

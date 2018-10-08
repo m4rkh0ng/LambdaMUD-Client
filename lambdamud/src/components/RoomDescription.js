@@ -11,9 +11,16 @@ const Div = styled.div`
 `
 
 const RoomDescription = (props) => {
+  const playerList = props.room.players.map((player) => <Span>{player}</Span>)
+  
   return (
     <Div className="character">\
-      Room Description
+      <Span style={{color:'#457B9D', margin: '10px 0'}}>Room Description</Span>
+      <Title>Name:</Title>
+      <Span>{props.room.title}</Span>
+      <br/>
+      <Title>Player List:</Title>
+      {playerList}
     </Div>
   );
 }
