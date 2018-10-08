@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
+
 const Div = styled.div`
   border: 1px solid #457B9D;
   border-radius: 5px;
@@ -10,8 +11,18 @@ const Div = styled.div`
   min-height: 25em;
 `
 
+const Title = styled.span`
+    text-align: left;
+    margin-left: 5%;
+`
+
+const Span = styled.span`
+    text-align: center;
+    display: block;
+`
+
 const RoomDescription = (props) => {
-  const playerList = props.room.players.map((player) => <Span>{player}</Span>)
+  const playerList = props.room.players.map((player, index) => <Span key={String(index)}>{player}</Span>)
   
   return (
     <Div className="character">\

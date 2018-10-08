@@ -4,6 +4,7 @@ import { injectGlobal } from 'styled-components';
 import axios from 'axios';
 import NavBar from './NavBar';
 import Container from './Container';
+import Pusher from 'pusher-js';
 
 const Div = styled.div`
   display: flex;
@@ -28,14 +29,19 @@ const Image = styled.img`
 class Home extends React.Component {
   constructor(props) {
     super(props);
+    this.pusher = new Pusher('9d98e442e8dbbc7a4c83', {
+      cluster: 'us2'
+    })
     this.state = {  
       user: {
-        username: ''
+        username: '',
+        uuid: ''
       },
       room: {
         title: '',
         players: []
-      }
+      },
+      text: ''
     }
   }
 
@@ -45,12 +51,16 @@ class Home extends React.Component {
       this.props.history.replace('/login')
     }
     this.gameInit(token);
+    const channel = this.pusher.subscribe(`p-channel-${this.state.uuid}`)
+    channel.bind('broadcast', data => {
+      this.setState({ text: data.message });
+    })
   }
 
   gameInit = async (token) => {
     try {
-      const response = await axios({
-        url: 'https://m4rkh0ng-mud.herokuapp.com/api/adv/init',
+      const response = await axios.get("https://m4rkh0ng-mud.herokuapp.com/api/adv/init",
+        {
         method: 'get',
         headers: {
           'Authorization': `Token ${token}`
@@ -58,7 +68,8 @@ class Home extends React.Component {
       })
 
       const user = {
-        username: response.data.name
+        username: response.data.name,
+        uuid: response.data.uuid
       }
 
       const room = {
@@ -79,10 +90,10 @@ class Home extends React.Component {
     return (
       <Div>
         <div className="header">
-          <NavBar username={this.state.user.username}/>
+          <NavBar username={this.state.user.username} />
         </div>
         <div className="content">
-          <Container user={this.state.user} room={this.state.room}/>
+          <Container user={this.state.user} room={this.state.room} />
         </div>
       </Div>
     )
