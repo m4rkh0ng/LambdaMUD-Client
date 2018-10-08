@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { injectGlobal } from 'styled-components';
 import axios from 'axios';
+import NavBar from './NavBar'
 
 class Home extends React.Component {
   constructor(props) {
@@ -19,7 +20,8 @@ class Home extends React.Component {
   render() {
     return (
       <div>
-        Hello, world.
+        <NavBar />
+        <img src={logo} alt="LambdaMUD"/>
       </div>
     )
   }
