@@ -92,7 +92,7 @@ const Warning = styled.p`
     color: #E63946;
     margin: 10px auto;
     font-family: 'Lora', Serif;
-    font-Size: 14px;
+    font-Size: 20px;
     text-align: center;
 `
 
@@ -128,29 +128,13 @@ class Registration extends React.Component {
         });
     }
 
-    // submitHandler = async (e, user) => {
-    //     e.preventDefault();
-    //     try {
-    //         const response = await axios.post('http://localhost:3000/api/register', user);
-    //         const token = response.data;
-    //         localStorage.setItem('token', token);
-    //         this.props.history.push('/jokes');
-    //     } catch (error) {
-    //         this.setState({ isErrored: true, error: error.response.data });
-    //     }
-    // }
-
     submitHandler = async (e, user) => {
         e.preventDefault();
         try {
             const response = await axios.post('https://m4rkh0ng-mud.herokuapp.com/api/registration', user);
             const key = response.data.key;
-            this.setState({
-                user: {
-                    ...this.state.user,
-                    token: key
-                }
-            });
+            localStorage.setItem('lambda-token', key);
+            this.props.history.push('/');
         } catch (error) {
             const err = {
                 status: error.response.status,

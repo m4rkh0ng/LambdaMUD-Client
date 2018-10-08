@@ -80,7 +80,7 @@ const Input = styled.input`
 `
 
 const Warning = styled.p`
-    font-size: 16px;
+    font-size: 24px;
     font-weight: bold;
     color: #E63946;
     margin: auto;
@@ -148,6 +148,11 @@ class LoginForm extends React.Component {
               content: error.response.data
             }
             this.setState({
+              user: {
+                username: "",
+                password: "",
+                token: "",
+              },
               response: err
             })
         }
