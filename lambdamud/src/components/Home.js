@@ -17,6 +17,10 @@ class Home extends React.Component {
     }
   }
 
+  handleLogout = () => {
+    localStorage.removeItem('lambda-token');
+  }
+
   render() {
     return (
       <div>
