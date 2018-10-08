@@ -122,6 +122,13 @@ class LoginForm extends React.Component {
         }
     }
 
+    componentDidMount() {
+      const token = localStorage.getItem('lambda-token');
+      if(token) {
+        this.props.history.push('/')
+      }
+    }
+
     changeHandler = (e) => {
         this.setState({
             user: {
@@ -136,12 +143,8 @@ class LoginForm extends React.Component {
         try {
             const response = await axios.post('https://m4rkh0ng-mud.herokuapp.com/api/login', user);
             const key = response.data.key;
-            this.setState({
-              user: {
-                ...this.state.user,
-                token: key
-              }
-            });
+            localStorage.setItem('lambda-token', key);
+            this.props.history.push('/'); 
         } catch (error) {
             const err = {
               status: error.response.status,
