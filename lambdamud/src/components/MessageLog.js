@@ -13,7 +13,8 @@ const Div = styled.div`
 const MessageLog = (props) => {
   return (
     <Div className="game-message-log">
-      Message Log Here
+      {props.data.map(line => <div>{line}</div>)}
+      hello
     </Div>
   );
 }

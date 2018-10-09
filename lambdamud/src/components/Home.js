@@ -41,7 +41,8 @@ class Home extends React.Component {
         title: '',
         players: []
       },
-      text: ''
+      data: [],
+      command: ''
     }
   }
 
@@ -52,8 +53,10 @@ class Home extends React.Component {
     }
     this.gameInit(token);
     const channel = this.pusher.subscribe(`p-channel-${this.state.uuid}`)
+    const newdata = this.state.data.slice();
     channel.bind('broadcast', data => {
-      this.setState({ text: data.message });
+      newdata.push(data.message);
+      this.setState({ data: newdata });
     })
   }
 
@@ -93,7 +96,12 @@ class Home extends React.Component {
           <NavBar username={this.state.user.username} />
         </div>
         <div className="content">
-          <Container user={this.state.user} room={this.state.room} />
+          <Container 
+            user={this.state.user} 
+            room={this.state.room} 
+            data={this.state.data}
+            command={this.state.command}
+          />
         </div>
       </Div>
     )
