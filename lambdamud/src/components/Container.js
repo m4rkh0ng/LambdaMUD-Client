@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import GamePlay form './GamePlay';
+import GamePlay from './GamePlay';
 import GameInfo from './GameInfo';
 
 const GameControl = styled.div`
@@ -18,15 +18,21 @@ const Content = styled.div`
 `
 
 class Container extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {  }
-    }
+    
     render() { 
         return ( 
             <Content className="container">
-              <Gameplay />
-              <GameInfo user={this.props.user} room={this.props.room}/>
+              <GamePlay 
+                messages={this.props.messages}
+                command={this.props.command}
+                changeHandler={this.props.changeHandler}
+                submitHandler={this.props.submitHandler}
+              />
+              <GameInfo 
+                user={this.props.user} 
+                room={this.props.room}
+                playerList={this.props.playerList}
+              />
             </Content>
          );
     }

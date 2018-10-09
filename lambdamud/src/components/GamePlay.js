@@ -16,7 +16,7 @@ class GamePlay extends React.Component {
   }
 
   componentDidMount() {
-    const message = [`Welcome to the adventure, ${this.props.user.username}!`];
+    const message = [`Welcome to the adventure!`];
     console.log(message);
     this.setState({ data: message });
   }
@@ -25,7 +25,11 @@ class GamePlay extends React.Component {
     return (
       <GameControl className="game-control">
         <MessageLog data={this.state.data}/>
-        <InputCommand />
+        <InputCommand 
+          command={this.props.command}
+          changeHandler={this.props.changeHandler}
+          submitHandler={this.props.submitHandler}
+        />
       </GameControl>
     );
   }

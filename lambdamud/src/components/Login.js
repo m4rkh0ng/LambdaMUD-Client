@@ -161,7 +161,7 @@ class LoginForm extends React.Component {
     }
 
     render() {
-        const signupLink = <StyledLink to='/register'>Sign up</StyledLink>
+        const signupLink = <StyledLink to='/registration'>Sign up</StyledLink>
         const warning = this.state.response.status < 400 ? null : <Warning> {this.state.response.content.error} </Warning>;
 
         return (
@@ -169,7 +169,7 @@ class LoginForm extends React.Component {
             <Form onSubmit = {(e) => this.submitHandler(e, this.state.user)}>
                 <Heading>
                     <Header>Welcome</Header>
-                    <SubHeader>Sign in to your account</SubHeader>
+                    <SubHeader>Sign into your account</SubHeader>
                 </Heading>
 
                 <Input

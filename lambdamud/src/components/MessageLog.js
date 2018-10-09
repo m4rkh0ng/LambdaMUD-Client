@@ -8,13 +8,16 @@ const Div = styled.div`
   background: rgba(240,240,240,.7);
   margin: 20px 0;
   min-height: 48em;
+  text-align: left;
 `
 
 const MessageLog = (props) => {
   return (
     <Div className="game-message-log">
-      {props.data.map(line => <div>{line}</div>)}
-      hello
+      {/* {props.messages.map((msgs, index) =>
+      <div key={`msgs-${index}`}>
+        {msgs.map((msg,index) => <p key={`msg-${index}`}>{msg}</p>)}
+      </div>)} */}
     </Div>
   );
 }

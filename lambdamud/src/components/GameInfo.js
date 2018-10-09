@@ -15,10 +15,10 @@ class GameInfo extends React.Component {
 
   render() {
     return (
-      <GameInfo className="game-information">
+      <GameInformation className="game-information">
         <CharacterInfo user={this.props.user} />
-        <RoomDescription room={this.props.room} />
-      </GameInfo>
+        <RoomDescription room={this.props.room} playerList={this.props.playerList} />
+      </GameInformation>
     );
   }
 }

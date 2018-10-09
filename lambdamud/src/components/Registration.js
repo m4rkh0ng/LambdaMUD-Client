@@ -131,7 +131,7 @@ class Registration extends React.Component {
     submitHandler = async (e, user) => {
         e.preventDefault();
         try {
-            const response = await axios.post('https://m4rkh0ng-mud.herokuapp.com/api/registration', user);
+            const response = await axios.post('https://m4rkh0ng-mud.herokuapp.com/registration', user);
             const key = response.data.key;
             localStorage.setItem('lambda-token', key);
             this.props.history.push('/');

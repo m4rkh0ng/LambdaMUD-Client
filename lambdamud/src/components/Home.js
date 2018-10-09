@@ -39,9 +39,11 @@ class Home extends React.Component {
       },
       room: {
         title: '',
-        players: []
+        description: ''
       },
-      data: [],
+      playerList: [],
+      messages: [['Welcome adventurer']],
+      error_msg: '',
       command: ''
     }
   }
@@ -53,11 +55,64 @@ class Home extends React.Component {
     }
     this.gameInit(token);
     const channel = this.pusher.subscribe(`p-channel-${this.state.uuid}`)
-    const newdata = this.state.data.slice();
+    // const newdata = this.state.data.slice();
     channel.bind('broadcast', data => {
-      newdata.push(data.message);
-      this.setState({ data: newdata });
+      alert(data);
+      this.setState({ messages: [...this.state.messages, [data.message]] });
     })
+  }
+
+  changeHandler = (e) => {
+    this.setState({
+      command: e.target.value
+    });
+  }
+
+  move = (direction) => {
+    const token = localStorage.getItem('lambda-token');
+    const payload = {
+      direction: direction
+    }
+    return axios.post("https://m4rkh0ng-mud.herokuapp.com/api/adv/move", payload,
+      {
+        headers: {
+          "Authorization": `Token ${token}`,
+        }
+      })
+  }
+
+  parseCommand = (command) => {
+    const commands = command.split(' ');
+    if (commands.length === 2) {
+      if (commands[0] === 'move') {
+        try {
+          return this.move(commands[1])
+        } catch (err) {
+          return err.response.data
+        }
+      } else if (commands[0] === 'say') {
+        return;
+      }
+    } else {
+      return;
+    }
+  }
+
+  submitHandler = async (e) => {
+    e.preventDefault();
+    const response = await this.parseCommand(this.state.command);
+    const newMsg = response.data.error_msg ? [response.data.error_msg] : [response.data.title, response.data.description]
+    this.setState({
+      messages: [...this.state.messages, newMsg],
+      room: {
+        ...this.state.room,
+        title: response.data.title,
+        description: response.data.description
+      },
+      playerList: response.data.players,
+      error_msg: response.data.error_msg,
+      command: ''
+    });
   }
 
   gameInit = async (token) => {
@@ -77,13 +132,23 @@ class Home extends React.Component {
 
       const room = {
         title: response.data.title,
-        players: response.data.players
+        description: response.data.description,
       }
 
+      const playerList = response.data.players
+
       this.setState({
-        user,
-        room
+        user: user,
+        room: room,
+        messages: [...this.state.messages, Object.values(room)],
+        playerList: playerList
       });
+
+      const sub = 'p-channel-' + response.data.uuid;
+      const channel = this.pusher.subscribe(sub);
+      channel.bind('broadcast', data => {
+        this.setState({ messages: [...this.state.messages, [data.message]] });
+      })
     } catch (err) {
         console.log(err.response);
     }
@@ -98,9 +163,13 @@ class Home extends React.Component {
         <div className="content">
           <Container 
             user={this.state.user} 
-            room={this.state.room} 
-            data={this.state.data}
+            room={this.state.room}
+            messages={this.state.messages}
+            error_msg={this.state.error_msg}
+            playerList={this.state.playerList}
             command={this.state.command}
+            changeHandler={this.changeHandler}
+            submitHandler={this.submitHandler}
           />
         </div>
       </Div>
